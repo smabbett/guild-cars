@@ -1,0 +1,78 @@
+﻿@model GuildCars.UI.Models.UserEditVM
+
+@{
+    ViewBag.Title = "EditUser";
+}
+
+<div class="row">
+    <h2>Edit User</h2>
+</div>
+<div class="row">
+    @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post, new { id = "frmEditUser" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.User.Id)
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label>First Name</label>
+                @Html.TextBoxFor(m => m.User.FirstName, new { @class = "form-control", id = "FirstName" })
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.User.FirstName)</span>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                @Html.TextBoxFor(m => m.User.Email, new { @class = "form-control", id = "Email" })
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.User.Email)</span>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "Password" })
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Password)</span>
+            </div>
+            <button class="btn btn-primary">Save</button>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label>Last Name</label>
+                @Html.TextBoxFor(m => m.User.LastName, new { @class = "form-control", id = "LastName" })
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.User.LastName)</span>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                @Html.DropDownListFor(m => m.SelectedRoleID, Model.RoleList, "-Choose One-", new { @class = "form-control", id = "Role" })
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.SelectedRoleID)</span>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", id = "ConfirmPassword" })
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.ConfirmPassword)</span>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $('#frmEditUser').validate({
+                rules: {
+                    'User.FirstName': {
+                        required: true
+                    },
+                    'User.LastName': {
+                        required: true
+                    },
+                    'User.Email': {
+                        required: true,
+                        email: true
+                    },                
+                    'SelectedRoleID': {
+                        required: true,
+                    }
+                }
+            });
+        });
+    </script>
+}

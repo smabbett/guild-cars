@@ -1,0 +1,77 @@
+﻿@model IEnumerable<GuildCars.Models.Queries.MakeListItem>
+
+@{
+    ViewBag.Title = "Makes";
+}
+
+<h2>Makes</h2>
+<div class="row" style="height:70px; border:1px solid black">
+    <div class="col-xs-12 col-md-6 col-lg-6">
+        @using (Html.BeginForm())
+        {
+            <div class="col-xs-12 col-md-8 form-inline">
+                <div class="form-group">
+                    <label>New Make:</label>
+                    @Html.TextBox("Make Name", null, new { @class = "form-control", id = "makeName" })
+                </div>
+                <button class="btn btn-primary" id="addMake">Save</button>
+                <p id="statusMessage">
+                </p>
+            </div>
+        }
+       
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Make</th>
+                    <th>Date Added</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var make in Model)
+                {
+                    <tr>
+                        <td>@make.MakeName</td>
+                        <td>@make.DateAdded.ToString("MM/dd/yyyy")</td>
+                        <td>@make.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        var userID = '@ViewBag.UserID';
+        
+        $(document).ready(function () {
+            $('#addMake').click(function (event) {
+                addMake();
+                return false;
+            });
+
+            function addMake() {
+                var makeName = $('#makeName').val();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:55457/api/make/add/' + makeName + '/' + userID,
+                    success: function () {
+                        window.location.reload(true);    
+                    },
+                    error: function () {
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Could not add make!');
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
+

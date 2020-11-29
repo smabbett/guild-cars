@@ -1,0 +1,78 @@
+﻿@model GuildCars.UI.Models.SearchSalesVM
+
+@{
+    ViewBag.Title = "Sales";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        <h2>Sales Report</h2>
+     </div>
+</div>
+<div class="row" style="border:1px solid black; padding:20px">
+    <div class="col-xs-12">
+        <form id="searchForm" class="form-inline">    
+            <div class="form-group">
+                <label for="userID">User</label>
+                @Html.DropDownList("userID", Model.Users, "All", new { @class = "form-control", id = "userID" })       
+            </div>
+            <div class="form-group">
+                <label for="fromDate">From Date</label>
+                <input type="text" class="form-control" id="fromDate">
+            </div>
+            <div class="form-group">
+                <label for="toDate">To Date</label>
+                <input type="text" class="form-control" id="toDate">
+            </div>
+            <button id="btnSearch" class="btn btn-default">Search</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div id="searchResults" class="col-xs-12">
+
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#searchForm").submit(function (e) {
+                search();
+                return false;
+            });
+        });
+
+        function search() {
+            var params;
+            params = 'userID=' + $('#userID').val() + '&fromDate=' + $('#fromDate').val() + '&toDate=' + $('#toDate').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:55457/api/salesReport/search?' + params,
+                success: function (results) {
+                    $('#searchResults').empty();
+                    $('#searchResults').append('<h3>Search Results</h3>' +
+                        '<table class="table table-bordered table-striped">' +
+                        '<thead><tr>' +
+                        '<th>User</th><th>Total Sales</th><th>Total Inventory</th>' +
+                        '</tr></thead><tbody></tbody></table>');
+
+                    $.each(results, function(index, user) {
+                        var html = '<tr>' +
+                       '<td>' + user.FirstName + ' ' + user.LastName + '</td>' +
+                       '<td>$' + user.TotalSales.toFixed(2) + '</td>' +
+                       '<td>' + user.TotalVehicles + '</td></tr>';
+                      
+                        $('#searchResults tbody').append(html.toString());
+                });
+        },
+        error: function () {
+            alert('Error performing search, try again later!')
+        }
+        });
+        }
+    </script>
+}

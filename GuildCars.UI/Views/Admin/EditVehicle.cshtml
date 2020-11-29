@@ -1,0 +1,180 @@
+﻿@model GuildCars.UI.Models.VehicleEditVM
+
+@{
+    ViewBag.Title = "EditVehicle";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <h2>Edit Vehicle</h2>
+        @using (Html.BeginForm("EditVehicle", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditVehicle" }))
+        {
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(m => m.Vehicle.VehicleID)
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label>Make</label>
+                    @Html.DropDownListFor(m => m.Vehicle.MakeID, Model.Make, "-Choose One-", new { @class = "form-control", id = "makeList" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.MakeID)</span>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    @Html.DropDownListFor(m => m.Vehicle.VehicleType, Model.Type, "-Choose One-", new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.VehicleType)</span>
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    @Html.DropDownListFor(m => m.Vehicle.VehicleYear, Model.Years, "-Choose One-", new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.VehicleYear)</span>
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    @Html.DropDownListFor(m => m.Vehicle.BodyColorID, Model.BodyColor, "-Choose One-", new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.BodyColorID)</span>
+                </div>
+                <div class="form-group">
+                    <label>Mileage</label>
+                    @Html.TextBoxFor(m => m.Vehicle.Mileage, new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.Mileage)</span>
+                </div>
+                <div class="form-group">
+                    <label>MSRP</label>
+                    @Html.TextBoxFor(m => m.Vehicle.MSRP, new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.MSRP)</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group" id="modelList">
+                    <label>Model</label>
+                    @Html.DropDownListFor(m => m.Vehicle.ModelID, Model.Model, "-Choose One-", new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.ModelID)</span>
+                </div>
+                <div class="form-group">
+                    <label>Body Style</label>
+                    @Html.DropDownListFor(m => m.Vehicle.BodyStyleID, Model.BodyStyle, "-Choose One-", new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.BodyStyleID)</span>
+                </div>
+                <div class="form-group">
+                    <label>Transmission</label>
+                    @Html.DropDownListFor(m => m.Vehicle.TransmissionID, Model.Transmission, "-Choose One-", new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.TransmissionID)</span>
+                </div>
+                <div class="form-group">
+                    <label>Interior Color</label>
+                    @Html.DropDownListFor(m => m.Vehicle.InteriorColorID, Model.InteriorColor, "-Choose One-", new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.InteriorColorID)</span>
+                </div>
+                <div class="form-group">
+                    <label>VIN #</label>
+                    @Html.TextBoxFor(m => m.Vehicle.Vin, new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.Vin)</span>
+                </div>
+                <div class="form-group">
+                    <label>Sales Price</label>
+                    @Html.TextBoxFor(m => m.Vehicle.Price, new { @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.Price)</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                    <label>Description</label>
+                    @Html.TextAreaFor(m => m.Vehicle.VehicleDescription, 5, 100, new { @id = "vehicleDescription", @class = "form-control" })
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.VehicleDescription)</span>
+                </div>
+                <img src="@Url.Content("~/Images/" + Model.Vehicle.ImageFileName)" />
+                <div class="form-group">
+                    <label>Replace Picture</label>
+                    <input id="ImageUpload" name="ImageUpload" type="file" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.Vehicle.ImageFileName)</span>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.Vehicle.IsFeatured) Feature this vehicle
+                    </label>
+                </div>
+            </div> 
+                    <button class="btn btn-primary">Save</button>
+                    }
+                    @using (Html.BeginForm("DeleteVehicle", "Admin", FormMethod.Post))
+                {
+                        @Html.Hidden("VehicleID", Model.Vehicle.VehicleID)
+                        <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this vehicle?');">Delete</button>
+                    }                     
+      </div>
+</div>
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $('#makeList').change(function () {
+                var id = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:55457/api/models/list?id=' + id,
+                    success: function (results) {
+                        $('#modelList').empty();
+                        $('#modelList').append('<label>Model</label><select class="form-control" id="Vehicle.ModelID" name="Vehicle.ModelID"><option value="" selected disabled>-Choose One-</option></select>');
+
+                        $.each(results, function (index, model) {
+                            var html = '<option value="' + model.ModelID + '">' + model.ModelName + '</option>';
+                            $('#modelList>select').append(html.toString());
+                        });
+                    },
+                    error: function () {
+                        alert('Error performing search, try again later!')
+                    }
+                });
+            });
+
+            $('#frmEditVehicle').validate({
+                rules: {
+                    'Vehicle.MakeID': {
+                        required: true
+                    },
+                    'Vehicle.ModelID': {
+                        required: true
+                    },
+                    'Vehicle.VehicleType': {
+                        required: true,
+                    },
+                    'Vehicle.BodyStyleID': {
+                        required: true,
+                    },
+                    'Vehicle.TransmissionID': {
+                        required: true,
+                    },
+                    'Vehicle.BodyColorID': {
+                        required: true,
+                    },
+                    'Vehicle.InteriorColorID': {
+                        required: true,
+                    },
+                    'Vehicle.Mileage': {
+                        required: true,
+                        number: true,
+                    },
+                    'Vehicle.Vin': {
+                        required: true,
+                    },
+                    'Vehicle.MSRP': {
+                        required: true,
+                        number: true,
+                        min: 1
+                    },
+                    'Vehicle.Price': {
+                        required: true,
+                        number: true,
+                        min: 1,
+                    },
+                    'Vehicle.VehicleDescription': {
+                        required: true
+                    }
+                }
+            });
+        });
+    </script>
+}

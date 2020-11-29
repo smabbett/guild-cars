@@ -1,0 +1,82 @@
+﻿@model GuildCars.UI.Models.ModelsListViewModel
+
+@{
+    ViewBag.Title = "Models";
+}
+
+<h2>Models</h2>
+<div class="row" style="height:70px; border:1px solid black">
+    <div class="col-xs-12 col-md-8 form-inline">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <label>New Model:</label>
+                @Html.TextBox("Model Name", null, new { @class = "form-control", id = "modelName" })
+            </div>
+            <div class="form-group">
+                <label>Make:</label>
+                @Html.DropDownListFor(m => m.Model.MakeID, Model.MakeList, new { @class = "form-control", id = "makeName" })
+            </div>
+                <button class="btn btn-primary" id="addModel">Save</button>
+                <p id="statusMessage">
+                </p>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Date Added</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model.ModelList)
+                {
+                    <tr>
+                        <td>@m.MakeName</td>
+                        <td>@m.ModelName</td>
+                        <td>@m.DateAdded.ToString("MM/dd/yyyy")</td>
+                        <td>@m.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        var userID = '@ViewBag.UserID';
+
+        $(document).ready(function () {
+            $('#addModel').click(function (event) {
+                addModel();
+                return false;
+            });
+
+            function addModel() {
+                var modelName = $('#modelName').val();
+                var makeID = $('#makeName').val();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:55457/api/model/add/' + modelName + '/' + makeID + '/' + userID,
+                    success: function () {
+                        window.location.reload(true);
+                    },
+                    error: function () {
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Could not add model!');
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
+
+

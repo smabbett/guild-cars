@@ -1,0 +1,75 @@
+﻿@model GuildCars.Models.Queries.VehicleDetailsItem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Vehicle Details</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4">
+        <p>@Model.VehicleYear @Model.MakeName @Model.ModelName</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4">
+        <img src="@Url.Content("~/Images/" + Model.ImageFileName)" />
+    </div>
+    <style type="text/css">
+        td{padding:10px;}  
+    </style>
+    <table>
+        <tbody>
+            <tr>
+                <td align="right"><strong>BodyStyle:</strong></td>
+                <td>@Model.BodyDescription</td>
+                <td align="right"><strong>Interior:</strong></td>
+                <td>@Model.InteriorColorName</td>
+                <td align="right"><strong>Sales Price:</strong></td>
+                <td>@Model.Price.ToString("c")</td>
+
+            </tr>
+            <tr>
+                <td align="right"><strong>Transmission: </strong></td>
+                <td>@Model.Gears</td>
+                <td align="right"><strong>Mileage: </strong></td>
+                <td>@Model.Mileage</td>
+                <td align="right"><strong>MSRP: </strong></td>
+                <td>@Model.MSRP.ToString("c")</td>
+            </tr>
+            <tr>
+                <td align="right"><strong>Color: </strong></td>
+                <td>@Model.BodyColorName</td>
+                <td align="right"><strong>VIN #: </strong></td>
+                <td>@Model.Vin</td>
+            </tr>
+            <tr>
+                <td style="padding-top:50px" align="right"><strong>Description:</strong></td>
+                <td style="padding-top:50px">@Model.VehicleDescription</td>
+            </tr>          
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="col-md-offset-10">
+            @if (Model.SaleStatus == true)
+            {
+                <a class="btn btn-default" href="@Url.Action("Contact", "Home", new { vin = Model.Vin }, null)">Contact Us</a>
+            }
+            else
+            {
+                <button id="btnUnavailableSold" class="btn btn-default" disabled>Unavailable-Sold</button>
+            }     
+    </div>
+</div>
+<p id="statusMessage">
+
+</p>
+
+
+
+
+

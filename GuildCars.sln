@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildCars.UI", "GuildCars.UI\GuildCars.UI.csproj", "{408C57A4-E0E7-4B2C-AE88-5990069EE22C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildCars.Models", "GuildCars.Models\GuildCars.Models.csproj", "{ECBD107C-D631-400D-818D-13895E13638B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildCars.Data", "GuildCars.Data\GuildCars.Data.csproj", "{2E2F76A0-9D46-402E-A4A0-8CC725A91B28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildCars.Tests", "GuildCars.Tests\GuildCars.Tests.csproj", "{5F3688D4-7C18-423A-A6C1-DB680828CBD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{408C57A4-E0E7-4B2C-AE88-5990069EE22C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408C57A4-E0E7-4B2C-AE88-5990069EE22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408C57A4-E0E7-4B2C-AE88-5990069EE22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408C57A4-E0E7-4B2C-AE88-5990069EE22C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECBD107C-D631-400D-818D-13895E13638B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECBD107C-D631-400D-818D-13895E13638B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECBD107C-D631-400D-818D-13895E13638B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECBD107C-D631-400D-818D-13895E13638B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E2F76A0-9D46-402E-A4A0-8CC725A91B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E2F76A0-9D46-402E-A4A0-8CC725A91B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E2F76A0-9D46-402E-A4A0-8CC725A91B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E2F76A0-9D46-402E-A4A0-8CC725A91B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F3688D4-7C18-423A-A6C1-DB680828CBD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F3688D4-7C18-423A-A6C1-DB680828CBD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F3688D4-7C18-423A-A6C1-DB680828CBD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F3688D4-7C18-423A-A6C1-DB680828CBD1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,108 @@
+﻿@model GuildCars.UI.Models.SearchVM
+
+@{
+    ViewBag.Title = "Vehicles";
+}
+
+
+<div class="row">
+    <h2>Vehicles</h2>
+    <a href="@Url.Action("AddVehicle", "Admin")">Add a new vehicle</a>
+</div>
+<div class="row" style="border:1px solid black; padding:20px">
+    <div class="col-xs-12">
+        <form id="searchForm" class="form-inline">
+            <div class="form-group">
+                <label for="searchTextBox">Quick Search</label>
+                <input type="text" class="form-control" id="searchTextBox">
+            </div>
+            <div class="form-group">
+                <label for="minPrice">Price</label>
+                @Html.DropDownList("minPrice", new SelectList(Model.PriceRange), "No Min", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.DropDownList("maxPrice", new SelectList(Model.PriceRange), "No Max", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="minYear">Year</label>
+                @Html.DropDownList("minYear", new SelectList(Model.SearchYears), "No Min", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.DropDownList("maxYear", new SelectList(Model.SearchYears), "No Max", new { @class = "form-control" })
+            </div>
+            <button id="btnSearch" class="btn btn-default">Search</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div id="searchResults" class="col-xs-12">
+
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#searchForm").submit(function (e) {
+                search();
+                return false;
+            });
+        });
+
+        function search() {
+            var params;
+            var imagePath = '@Url.Content("~/Images/")';
+            var editPath = '@Url.Action("EditVehicle", "Admin")/';
+
+            params = 'minPrice=' + $('#minPrice').val() + '&maxPrice=' + $('#maxPrice').val() + '&minYear=' + $('#minYear').val() + '&maxYear=' + $('#maxYear').val() + '&searchTextBox=' + $('#searchTextBox').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:55457/api/sales/search?' + params,
+                success: function (results) {
+                    $('#searchResults').empty();
+                    $('#searchResults').append('<h3>Search Results</h3>');
+
+                    $.each(results, function(index, vehicle) {
+                        var html = '<div class="container" style="border:1px solid black"><div class="row"><div class="col-xs-12 col-sm-12 col-md-4">' +
+                            '<p>' + vehicle.VehicleYear + ' ' + vehicle.MakeName + ' ' + vehicle.ModelName + '</p>' +
+                            '</div></div>' +
+                            '<div class="row"><div class="col-xs-12 col-sm-12 col-md-4">' +
+                            '<img src="'+ imagePath + vehicle.ImageFileName + '" /></div>' +
+                            '<style type="text/css">td{padding:10px;}</style>' +
+                            '<table><tbody><tr>' +
+                            '<td align="right"><strong>BodyStyle:</strong></td>' +
+                            '<td>' + vehicle.BodyDescription + '</td>' +
+                            '<td align="right"><strong>Interior:</strong></td>' +
+                            '<td>' + vehicle.InteriorColorName + '</td>' +
+                            '<td align="right"><strong>Sales Price:</strong></td>' +
+                            '<td>$' + vehicle.Price + '</td></tr><tr>' +
+                            '<td align="right"><strong>Transmission: </strong></td>' +
+                            '<td>' + vehicle.Gears + '</td>' +
+                            '<td align="right"><strong>Mileage: </strong></td>' +
+                            '<td>' + vehicle.Mileage + '</td>' +
+                            '<td align="right"><strong>MSRP: </strong></td>' +
+                            '<td>$' + vehicle.MSRP + '</td></tr><tr>' +
+                            '<td align="right"><strong>Color: </strong></td>' +
+                            '<td>' + vehicle.BodyColorName + '</td>' +
+                            '<td align="right"><strong>VIN #: </strong></td>' +
+                            '<td>' + vehicle.Vin + '</td></tr></tbody></table></div>' +
+                            '<div class="row"><div class="col-md-offset-9">' +
+                            '<a class="btn btn-default" href="' + editPath + vehicle.VehicleID + '">Edit</a>' +
+                            '</div></div></div>';
+
+                    $('#searchResults').append(html.toString());
+                });
+
+        },
+        error: function () {
+            alert('Error performing search, try again later!')
+        }
+        });
+        }
+    </script>
+}
+
+

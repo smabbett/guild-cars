@@ -1,0 +1,56 @@
+﻿@model GuildCars.UI.Models.FeaturedVehiclesSpecialsVM
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+
+<div id="myJumbotron" class="jumbotron">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <a href="@Url.Action("Specials", "Home")">
+                    <h1>Welcome to Guild Cars!</h1>
+                    <p>The only place to shop when you're ready to buy your next vehicle!</p>
+                </a>
+            </div>
+            @foreach (var special in Model.Specials)
+            {
+                <div class="item">
+                    <a href="@Url.Action("Specials", "Home")">
+                        <h1>@special.Title</h1>
+                        <p>@special.SpecialDescription</p>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h3>Featured Vehicles</h3>
+        @foreach (var vehicle in Model.FeaturedVehicles)
+            {
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <table>
+                    <tr style="height:200px">
+                        <td class="featuredVehicle"><img src="@Url.Content("~/Images/" + vehicle.ImageFileName)" alt="vehicle image" width="175" height="125"  /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="featuredVehicle"><strong>@vehicle.VehicleYear @vehicle.MakeName @vehicle.ModelName</strong></p>
+                            <p class="featuredVehicle">@vehicle.Price.ToString("c")</p>
+                            <p class="featuredVehicle">@Html.ActionLink("view details", "Details", "Inventory", new { id = vehicle.VehicleID }, null)</p>
+                        </td>
+                    </tr>
+                </table>      
+            </div>
+        }
+    </div>
+</div>
+
+
